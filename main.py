@@ -46,6 +46,7 @@ def train_and_evaluate():
 
     print(f'Accuracy: {accuracy:.3f}')
     print('Classification Report:')
+    print('Hello, my name is Sandra.')
     print(report)
     return accuracy, report
 
