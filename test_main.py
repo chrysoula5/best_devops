@@ -9,3 +9,16 @@ def test_add():
     assert (add(np.array([1, 2]), 3) == np.array([4, 5])).all()
 
 # TODO: add more tests
+
+#Test with mixed types
+
+assert add(1,2.0) ==3.0
+assert add(2.0,1)==3.0
+assert (add(np.array([1,2]),2.0)==np.array([3.0,4.0])).all()
+assert (add(2.0,np.array([1,2]))==np.array([3.0,4.0])).all()
+
+#Test with multi-dimentional arrays
+assert (add(np.array ([[1,2],[3,4]]),np.arrays([[5,6],[7,8]]))==np.array([[6,8],[10,12]])).all()
+assert (add(np.array([[1,2],[3,4]]),1)==np.array([[2,3],[4,5]])).all()
+
+
