@@ -4,7 +4,10 @@ from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
 from sklearn.svm import SVC
 from sklearn.metrics import classification_report, accuracy_score
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.model_selection import GridSearchCV
 import numpy as np
+import argparse
 
 def add(a: int | float | np.ndarray, b: int | float | np.ndarray) -> int | float | np.ndarray:
     return a + b
@@ -21,7 +24,7 @@ def train_and_evaluate(test_size=0.2, use_cross_validation=False, model_type='sv
 
     # Split the dataset into training and testing sets
     # TODO: consider using cross-validation
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=8)
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=test_size, random_state=8)
 
     # Standardize the features
     # TODO: consider better feature engineering
@@ -32,17 +35,16 @@ def train_and_evaluate(test_size=0.2, use_cross_validation=False, model_type='sv
     if model_type == 'svm':
         model = SVC(kernel=kernel, random_state=42)
         if tune_hyperparameters:
-            from sklearn.model_selection import GridSearchCV
             param_grid = {'C': [0.1, 1, 10, 100], 'kernel': ['linear', 'rbf']}
-            model = GridSearchCV(SVC(), param_grid, refit=True, verbose=0)
+            model = GridSearchCV(SVC(), param_grid, refit=True, verbose=1)
     elif model_type == 'random_forest':
         model = RandomForestClassifier(random_state=42)
         if tune_hyperparameters:
-            from sklearn.model_selection import GridSearchCV
             param_grid = {'n_estimators': [10, 50, 100], 'max_features': ['auto', 'sqrt', 'log2']}
-            model = GridSearchCV(RandomForestClassifier(), param_grid, refit=True, verbose=0)
+            model = GridSearchCV(RandomForestClassifier(), param_grid, refit=True, verbose=1)
     else:
         raise ValueError("Unsupported model type")
+    model.fit(X_train, y_train)
 
     # Make predictions on the test set
     y_pred = model.predict(X_test)
