@@ -36,5 +36,3 @@ TODO suggestions:
 * TODO: include hyperparameters for the SVM
 * TODO: add typing to the code
 * TODO: add logging of results to files
-
-
